@@ -9,4 +9,6 @@ public interface projectService {
 	public projectDTO getProject(Integer customerId) throws instepException;
 	public List<projectDTO> getAllProjects() throws instepException;
 	public Integer addProject(projectDTO customer) throws instepException;
+	public String updateProject(projectDTO project) throws instepException;;
+	public String deleteProject(Integer projectId) throws instepException;;
 }

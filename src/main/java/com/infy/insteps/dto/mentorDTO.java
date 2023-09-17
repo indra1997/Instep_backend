@@ -6,6 +6,13 @@ public class mentorDTO {
 	
 	private Integer mentorId;
 	private String name;
+	private String password;
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	private String emailId;
 	private String location;
 	private String unit;

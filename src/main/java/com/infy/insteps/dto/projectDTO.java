@@ -11,6 +11,20 @@ public class projectDTO {
 	private String requiredSkills;
 	private String location;
 	private String status;
+	private Integer mentorId;
+	private Integer mentorsAllocated;
+	public Integer getMentorsAllocated() {
+		return mentorsAllocated;
+	}
+	public void setMentorsAllocated(Integer mentorsAllocated) {
+		this.mentorsAllocated = mentorsAllocated;
+	}
+	public Integer getMentorId() {
+		return mentorId;
+	}
+	public void setMentorId(Integer mentorId) {
+		this.mentorId = mentorId;
+	}
 	public Integer getProjectId() {
 		return projectId;
 	}

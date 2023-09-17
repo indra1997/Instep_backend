@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.infy.insteps.dto.adminDTO;
 import com.infy.insteps.dto.mentorDTO;
+import com.infy.insteps.entity.Admin;
 import com.infy.insteps.entity.Mentor;
 import com.infy.insteps.exception.instepException;
 import com.infy.insteps.repository.MentorRepository;
@@ -29,6 +31,7 @@ public class mentorServiceImpl implements mentorService {
 		Mentor mentor = optional.orElseThrow(() -> new instepException("Service.mentor_NOT_FOUND"));
 		mentorDTO mentor2 = new mentorDTO();
 		mentor2.setMentorId(mentor.getMentorId());
+		mentor2.setPassword(mentor.getPassword());
 		mentor2.setEmailId(mentor.getEmailId());
 		mentor2.setLocation(mentor.getLocation());
 		mentor2.setName(mentor.getName());
@@ -45,6 +48,7 @@ public class mentorServiceImpl implements mentorService {
 			mentorDTO mentor2 = new mentorDTO();
 			mentor2.setMentorId(mentor.getMentorId());
 			mentor2.setEmailId(mentor.getEmailId());
+			mentor2.setPassword(mentor.getPassword());
 			mentor2.setLocation(mentor.getLocation());
 			mentor2.setName(mentor.getName());
 			mentor2.setNoOfProjectsMentoring(mentor.getNoOfProjectsMentoring());
@@ -62,11 +66,30 @@ public class mentorServiceImpl implements mentorService {
 		mentor2.setMentorId(mentor.getMentorId());
 		mentor2.setEmailId(mentor.getEmailId());
 		mentor2.setLocation(mentor.getLocation());
+		mentor2.setPassword(mentor.getPassword());
 		mentor2.setName(mentor.getName());
 		mentor2.setNoOfProjectsMentoring(mentor.getNoOfProjectsMentoring());
 		mentor2.setUnit(mentor.getUnit());
 		Mentor mentorEntity2 = mentorRepository.save(mentor2);
 		return mentorEntity2.getMentorId();
+	}
+	
+	@Override
+	public mentorDTO loginMentor(mentorDTO mentor)  throws instepException{
+		Optional<Mentor> optional = mentorRepository.findById(mentor.getMentorId());
+		Mentor m = optional.orElseThrow(() -> new instepException("Service.mentor_NOT_FOUND"));
+		if(m.getPassword().equals(mentor.getPassword())) {
+			mentorDTO mentor2 = new mentorDTO();
+			mentor2.setMentorId(m.getMentorId());
+			mentor2.setPassword(m.getPassword());
+			mentor2.setEmailId(m.getEmailId());
+			mentor2.setLocation(m.getLocation());
+			mentor2.setName(m.getName());
+			mentor2.setNoOfProjectsMentoring(m.getNoOfProjectsMentoring());
+			mentor2.setUnit(m.getUnit());
+			return mentor2;
+		}
+		else throw new instepException("wrong password");
 	}
 
 }

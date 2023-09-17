@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +50,19 @@ public class projectController {
 		String successMessage = environment.getProperty("API.INSERT_SUCCESS") + projectId;
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
+	
+	@PostMapping(value = "/projects/delete")
+	public ResponseEntity<String> deleteProject( @PathVariable Integer projectId) throws instepException {
+		String message = projectService.deleteProject(projectId);
+		
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	}
+	
+	@PutMapping(value = "/projects/update")
+	public ResponseEntity<String> updateProject(@RequestBody projectDTO project) throws instepException {
+		String message  = projectService.updateProject(project);
+		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	}
+	
 }
 

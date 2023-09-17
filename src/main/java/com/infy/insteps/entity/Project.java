@@ -1,11 +1,13 @@
 package com.infy.insteps.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +22,33 @@ public class Project {
 	private String requiredSkills;
 	private String location;
 	private String status;
+	private Integer mentorId;
+	private Integer mentorsAllocated;
+	
+	
+
+	@ManyToMany(mappedBy = "projectsM")
+	Set<Mentor> mentr;
+	
+	public Integer getMentorsAllocated() {
+		return mentorsAllocated;
+	}
+	public void setMentorsAllocated(Integer mentorsAllocated) {
+		this.mentorsAllocated = mentorsAllocated;
+	}
+	public Integer getMentorId() {
+		return mentorId;
+	}
+	public void setMentorId(Integer mentorId) {
+		this.mentorId = mentorId;
+	}
+	
+	public Set<Mentor> getMentr() {
+		return mentr;
+	}
+	public void setMentr(Set<Mentor> mentr) {
+		this.mentr = mentr;
+	}
 	public Integer getProjectId() {
 		return projectId;
 	}
@@ -55,5 +84,9 @@ public class Project {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public void addMentor(Mentor mentor) {
+		this.mentr.add(mentor);
 	}
 }
