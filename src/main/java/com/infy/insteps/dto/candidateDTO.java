@@ -24,6 +24,14 @@ public class candidateDTO {
 	private String keySkills;
 	private String areaOfInterest;
 	private String projectPreference;
+	private String interviewScheduled;
+	
+	public String getInterviewScheduled() {
+		return interviewScheduled;
+	}
+	public void setInterviewScheduled(String interviewScheduled) {
+		this.interviewScheduled = interviewScheduled;
+	}
 	public String getAlternateEmail() {
 		return alternateEmail;
 	}

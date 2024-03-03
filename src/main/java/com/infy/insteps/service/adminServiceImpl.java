@@ -1,15 +1,22 @@
 package com.infy.insteps.service;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.infy.insteps.dto.adminDTO;
 import com.infy.insteps.dto.mentorDTO;
+import com.infy.insteps.dto.timing;
+import com.infy.insteps.dto.webexRetDTO;
+import com.infy.insteps.dto.webexSendJson;
 import com.infy.insteps.dto.adminDTO;
 import com.infy.insteps.dto.adminDTO;
 import com.infy.insteps.entity.Admin;
@@ -18,6 +25,11 @@ import com.infy.insteps.entity.Admin;
 import com.infy.insteps.exception.instepException;
 import com.infy.insteps.repository.AdminRepository;
 import com.infy.insteps.repository.MentorRepository;
+
+
+
+
+
 
 
 
@@ -30,6 +42,9 @@ public class adminServiceImpl implements adminService {
 	
 	@Autowired
 	private MentorRepository mentorRepository;
+	
+	@Autowired
+    private JavaMailSender emailSender;
 
 	@Override
 	public adminDTO getAdmin(Integer adminId) throws instepException {
@@ -139,6 +154,64 @@ public class adminServiceImpl implements adminService {
 		}
 		
 	}
+	
+	public webexRetDTO scheduleMeeting(timing t) {
+		
+		String myJsonString = "{\r\n"
+				+ "  \"adhoc\": false,\r\n"
+				+ "  \"enabledAutoRecordMeeting\": false,\r\n"
+				+ "  \"allowAnyUserToBeCoHost\": false,\r\n"
+				+ "  \"enabledJoinBeforeHost\": false,\r\n"
+				+ "  \"enableConnectAudioBeforeHost\": false,\r\n"
+				+ "  \"excludePassword\": false,\r\n"
+				+ "  \"publicMeeting\": false,\r\n"
+				+ "  \"enabledWebcastView\": false,\r\n"
+				+ "  \"enableAutomaticLock\": false,\r\n"
+				+ "  \"allowFirstUserToBeCoHost\": false,\r\n"
+				+ "  \"allowAuthenticatedDevices\": false,\r\n"
+				+ "  \"sendEmail\": true,\r\n"
+				+ "  \"requireAttendeeLogin\": false,\r\n"
+				+ "  \"restrictToInvitees\": false,\r\n"
+				+ "  \"title\": \"The Big Moment\",\r\n"
+				+ "  \"start\": \"2024-03-01T10:32:16.657+08:00\",\r\n"
+				+ "  \"end\": \"2024-03-01T10:50:16.657+08:00\"\r\n"
+				+ "}";
+		
+		System.out.println(myJsonString);
+		
+		try {
+		ObjectMapper om = new ObjectMapper();
+		webexSendJson root = om.readValue(myJsonString, webexSendJson.class);
+		root.start = t.from;
+		root.end = t.to;
+		RestTemplate restTemplate = new RestTemplate();
+		webexRetDTO resultAsJson = 
+			      restTemplate.postForObject("https://webexapis.com/v1/meetings", root, webexRetDTO.class);
+		
+		sendSimpleMessage(t.mentorMail, resultAsJson.start, resultAsJson.webLink, resultAsJson.password, resultAsJson.phoneAndVideoSystemPassword);
+		sendSimpleMessage(t.candidateMail, resultAsJson.start, resultAsJson.webLink, resultAsJson.password, resultAsJson.phoneAndVideoSystemPassword);
+		
+		return resultAsJson;
+		
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return new webexRetDTO();
+	}
+	
+	public void sendSimpleMessage(
+		      String to, Date when, String url, String password, String phoneAndVideoSystemPassword) {
+		        
+		        SimpleMailMessage message = new SimpleMailMessage(); 
+		        message.setFrom("jagdaleindrajit@gmail.com");
+		        message.setTo(to); 
+		        message.setSubject("Interview Scheduled"); 
+		        message.setText("Hey,\n\nYou have a meeting invite!\n\nURL: "+url+"\n\n Time: "+when+"\n\n Password: "+password+"\n\n PhoneAndVideoSystemPassword: "+phoneAndVideoSystemPassword+"\n\n Regards, Instep team.");
+		        emailSender.send(message);
+		   
+		    }
+
 
 }
 

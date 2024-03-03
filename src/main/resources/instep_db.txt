@@ -2,7 +2,7 @@ drop database if exists instep_db;
 create database instep_db;
 use  instep_db;
 
-
+drop table if exists candidate;
 create table candidate(
    candidate_id int auto_increment,
 	email_id varchar(50),
@@ -25,7 +25,7 @@ create table candidate(
 );
 
 
-
+drop table if exists mentor;
 
 create table mentor(
    mentor_id int auto_increment,
@@ -43,6 +43,7 @@ insert into mentor (mentor_id, name, password, email_id, location, unit, no_of_p
 insert into mentor (mentor_id, name, password, email_id, location, unit, no_of_projects_mentoring) values (2, 'Austin','password', 'mazfbin@infy.com', 'Mumbai', 'B.tech', 2);
 insert into mentor (mentor_id, name, password ,email_id, location, unit, no_of_projects_mentoring) values (3 , 'Indra','password', 'indra@infy.com', 'Masur', 'B.tech', 3);
 
+drop table if exists project;
 create table project(
    project_id int auto_increment,
    title varchar(20),

@@ -34,6 +34,7 @@ public class Candidate {
 	private String keySkills;
 	private String areaOfInterest;
 	private String projectPreference;
+	private String interviewScheduled;
 	public String getAlternateEmail() {
 		return alternateEmail;
 	}

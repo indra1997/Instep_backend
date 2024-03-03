@@ -76,10 +76,12 @@ public class candidateServiceImpl implements candidateService {
 			candidate2.setKeySkills(candidate.getKeySkills());
 			candidate2.setProjectPreference(candidate.getProjectPreference());
 			candidate2.setWorkAuthCountry(candidate.getWorkAuthCountry());
+			candidate2.setInterviewScheduled("no");
 			candidatesList.add(candidate2);
+			
 		});
-		if (candidatesList.isEmpty())
-			throw new instepException("Service.candidates_NOT_FOUND");
+//		if (candidatesList.isEmpty())
+//			throw new instepException("Service.candidates_NOT_FOUND");
 		return candidatesList;
 	}
 

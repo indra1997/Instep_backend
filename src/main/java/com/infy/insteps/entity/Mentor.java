@@ -25,12 +25,8 @@ public class Mentor {
 	private String unit;
 	private Integer noOfProjectsMentoring;
 	
-	@ManyToMany
-	@JoinTable(
-	  name = "projects_mentoring", 
-	  joinColumns = @jakarta.persistence.JoinColumn(name = "mentor_id"), 
-	  inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "project_id"))
-	Set<Project> projectsM;
+//	@ManyToMany(mappedBy = "projects")
+//	Set<Project> projectsM;
 	
 	public String getPassword() {
 		return password;
@@ -75,9 +71,9 @@ public class Mentor {
 		this.noOfProjectsMentoring = noOfProjectsMentoring;
 	}
 	
-	public void addProject(Project project) {
-		this.projectsM.add(project);
-	}
+//	public void addProject(Project project) {
+//		this.projectsM.add(project);
+//	}
 	
 	
 }

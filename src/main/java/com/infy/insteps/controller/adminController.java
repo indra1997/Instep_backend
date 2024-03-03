@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.infy.insteps.dto.adminDTO;
 import com.infy.insteps.dto.mentorDTO;
+import com.infy.insteps.dto.timing;
+import com.infy.insteps.dto.webexRetDTO;
 import com.infy.insteps.exception.instepException;
 import com.infy.insteps.service.adminService;
 
@@ -54,6 +56,12 @@ public class adminController {
 	public ResponseEntity<List<mentorDTO>> getMatchingMentors(@PathVariable String content) throws instepException {
 		List<mentorDTO> admin = adminService.getMatchingMentors(content);
 		return new ResponseEntity<>(admin, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/admins/schedule")
+	public ResponseEntity<webexRetDTO> scheduleInterview(@RequestBody timing t) throws instepException {
+		webexRetDTO a = adminService.scheduleMeeting(t);
+		return new ResponseEntity<>(a, HttpStatus.OK);
 	}
 	
 	

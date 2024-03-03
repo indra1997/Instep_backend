@@ -63,7 +63,7 @@ public class mentorServiceImpl implements mentorService {
 	@Override
 	public Integer addMentor(mentorDTO mentor) throws instepException {
 		Mentor mentor2 = new Mentor();
-		mentor2.setMentorId(mentor.getMentorId());
+//		mentor2.setMentorId(mentor.getMentorId());
 		mentor2.setEmailId(mentor.getEmailId());
 		mentor2.setLocation(mentor.getLocation());
 		mentor2.setPassword(mentor.getPassword());
